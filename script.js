@@ -52,8 +52,7 @@ const PROJECTS = [
     description: 'Цифровой проект CLOVISS.',
     image: 'assets/projects/cloviss-doxs.jpg',
     url: null,
-    technologies: ['HTML', 'CSS', 'JavaScript'],
-    status: 'В РАЗРАБОТКЕ'
+    technologies: ['HTML', 'CSS', 'JavaScript    status: 'В РАЗРАБОТКЕ'
   },
   {
     title: 'CLOVISS KEY',
@@ -71,6 +70,9 @@ const INITIAL_VISIBLE = 6;
 const $ = (sel, ctx = document) => ctx.querySelector(sel);
 const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 
+/* --------------------------------------------------
+   РЕНДЕР ПРОЕКТОВ
+-------------------------------------------------- */
 function renderProjects() {
   const grid = $('#projectsGrid');
   const moreWrap = $('#showMoreWrap');
@@ -96,7 +98,7 @@ function renderProjects() {
     const statusHtml = status ? `<div class="project-status" data-status="${status}"><i></i><span>${status}</span></div>` : '';
 
     return `
-      <article class="project-card${isExtra ? ' project-extra' : ''}" style="--d:${(i % INITIAL_VISIBLE) * 0.08}s">
+      <article class="project-card reveal${isExtra ? ' project-extra' : ''}" style="--d:${(i % INITIAL_VISIBLE) * 0.08}s">
         <div class="project-media">
           <div class="project-media-fallback">${fallbackText}</div>
           <img src="${p.image}" alt="${p.title}" loading="lazy" decoding="async" onerror="this.style.display='none'" />
@@ -128,7 +130,10 @@ function renderProjects() {
       btn.setAttribute('aria-expanded', String(next));
       btn.classList.toggle('active', next);
       btn.querySelector('span').textContent = next ? 'СВЕРНУТЬ' : 'ПОКАЗАТЬ ЕЩЁ';
-      $$('.project-extra', grid).forEach(card => card.classList.toggle('show', next));
+      $$('.project-extra', grid).forEach(card => {
+        card.classList.toggle('show', next);
+        if (next) card.classList.add('visible');
+      });
       if (!next) {
         const top = grid.getBoundingClientRect().top + window.pageYOffset - 100;
         window.scrollTo({ top, behavior: 'smooth' });
@@ -140,6 +145,44 @@ function renderProjects() {
   }
 }
 
+/* --------------------------------------------------
+   REVEAL — ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ
+-------------------------------------------------- */
+function initReveal() {
+  const els = $$('.reveal');
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(el => el.classList.add('visible'));
+    return;
+  }
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.12,
+    rootMargin: '0px 0px -60px 0px'
+  });
+
+  els.forEach(el => io.observe(el));
+
+  // Safety fallback — если через 3 сек что-то не показалось, показать
+  setTimeout(() => {
+    $$('.reveal:not(.visible)').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight) {
+        el.classList.add('visible');
+      }
+    });
+  }, 3000);
+}
+
+/* --------------------------------------------------
+   NAV
+-------------------------------------------------- */
 function initNav() {
   const nav = $('#nav');
   const toggle = $('#navToggle');
@@ -162,10 +205,10 @@ function initNav() {
   toggle.addEventListener('click', (e) => {
     e.stopPropagation();
     if (menu.hidden) {
-      menu.hidden = false;
-      toggle.classList.add('active');
-      toggle.setAttribute('aria-expanded', 'true');
-    } else closeMenu();
+      menu.hidden = false6;
+      toggle.classList.add(';active');
+      toggle.setAttribute(' dyaria-expanded', ' +=true');
+ (    } else closeMenu();
   });
 
   $$('a', menu).forEach(a => a.addEventListener('click', closeMenu));
@@ -175,6 +218,9 @@ function initNav() {
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
 }
 
+/* --------------------------------------------------
+   SMOOTH SCROLL
+-------------------------------------------------- */
 function initSmoothScroll() {
   $$('a[href^="#"]').forEach(a => {
     a.addEventListener('click', (e) => {
@@ -189,6 +235,9 @@ function initSmoothScroll() {
   });
 }
 
+/* --------------------------------------------------
+   CANVAS BACKGROUND
+-------------------------------------------------- */
 function initCanvas() {
   const canvas = $('#bg-canvas');
   if (!canvas) return;
@@ -247,6 +296,9 @@ function initCanvas() {
   });
 }
 
+/* --------------------------------------------------
+   CURSOR
+-------------------------------------------------- */
 function initCursor() {
   if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
   const cursor = $('.cursor'), dot = $('.cursor-dot');
@@ -262,7 +314,7 @@ function initCursor() {
   });
   const loop = () => {
     cx += (mx - cx) * 0.16; cy += (my - cy) * 0.16;
-    dx += (mx - dx) * 0.6; dy += (my - dy) * 0.6;
+    dx += (mx - dx) * 0.my - dy) * 0.6;
     cursor.style.transform = `translate3d(${cx - 18}px, ${cy - 18}px, 0)`;
     dot.style.transform = `translate3d(${dx - 2.5}px, ${dy - 2.5}px, 0)`;
     requestAnimationFrame(loop);
@@ -273,6 +325,9 @@ function initCursor() {
   document.addEventListener('mouseout', (e) => { if (e.target.closest(hov)) document.body.classList.remove('cursor-hover'); });
 }
 
+/* --------------------------------------------------
+   SKILL GLOW
+-------------------------------------------------- */
 function initSkillGlow() {
   $$('.skill-card').forEach(card => {
     card.addEventListener('mousemove', (e) => {
@@ -283,12 +338,16 @@ function initSkillGlow() {
   });
 }
 
+/* --------------------------------------------------
+   INIT
+-------------------------------------------------- */
 document.addEventListener('DOMContentLoaded', () => {
   renderProjects();
+  initReveal();          // ← АНИМАЦИЯ ПАЙДА БОЛУЫ
   initNav();
   initSmoothScroll();
   initCanvas();
   initCursor();
   initSkillGlow();
-  document.body.classList.add('loaded');
+  // body уже имеет class="loaded" в HTML
 });
