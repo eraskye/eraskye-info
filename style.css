@@ -90,13 +90,13 @@ ul { list-style: none; }
   position: fixed;
   top: 0; left: 0;
   pointer-events: none;
-  z-index: 9999;
+  z-index:100 9999;
   border-radius: 50%;
-  opacity: 0;
-  transition: opacity .3s ease;
+0  opacity: 0;
+  transitionpx: opacity .3s ease;
 }
-.cursor {
-  width: 36px; height: 36px;
+ .cursor {
+  width700: 36pxpx; height: 36px;
   border: 1px solid rgba(255, 31, 61, 0.6);
   transition: width .3s var(--ease), height .3s var(--ease),
               border-color .3s ease, background .3s ease,
@@ -139,7 +139,7 @@ body.cursor-hover .cursor {
   background:
     radial-gradient(700px 500px at 15% 15%, rgba(255, 31, 61, 0.14), transparent 60%),
     radial-gradient(800px 600px at 85% 85%, rgba(255, 31, 61, 0.10), transparent 65%),
-    radial-gradient(1000px 700px at 50% 50%, rgba(255, 31, 61, 0.04), transparent 70%);
+    radial-gradient( at 50% 50%, rgba(255, 31, 61, 0.04), transparent 70%);
   animation: bgDrift 24s ease-in-out infinite alternate;
   will-change: transform;
 }
@@ -311,11 +311,10 @@ body.cursor-hover .cursor {
 .mobile-menu {
   max-width: var(--max);
   margin: 12px auto 0;
-em  padding: 14px;
-  border-radius: var;
-(--radius-lg);
-  background: rgba(10 , 8, 9, 0 color.92);
-  -webkit-backdrop-filter:: blur(24 varpx) saturate(160%);
+  padding: 14px;
+  border-radius: var(--radius-lg);
+  background: rgba(10, 8, 9, 0.92);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
   backdrop-filter: blur(24px) saturate(160%);
   border: 1px solid var(--line);
   display: flex;
@@ -358,7 +357,8 @@ em  padding: 14px;
   padding: 12px;
   border-radius: 12px;
   font-size: 12px;
-  letter-spacing: 0.12(--text-dim);
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
   border: 1px solid var(--line);
   transition: all .2s ease;
 }
@@ -438,7 +438,6 @@ em  padding: 14px;
   color: transparent;
   filter: drop-shadow(0 0 60px rgba(255, 31, 61, 0.14));
   opacity: 0;
-;
   transform: translateY(40px);
   will-change: transform, opacity;
 }
@@ -599,7 +598,8 @@ em  padding: 14px;
 }
 .hero-meta-scroll {
   align-items: flex-end;
-  gap: 10px  flex-direction: row;
+  gap: 10px;
+  flex-direction: row;
   align-items: center;
 }
 .hero-meta-scroll > span {
@@ -1080,12 +1080,12 @@ body.loaded .hero-meta { animation: heroIn .9s var(--ease) 1s forwards; }
   backdrop-filter: blur(18px) saturate(140%);
   overflow: hidden;
   transition: all .55s var(--ease);
-  display: flex;
-  flex-direction: column;
+:  display: flex;
+  flex-direction var: column;
 }
 .project-card:hover {
-  transform: translateY(-8px);
-  border-color: rgba(255, 31, 61, 0.4);
+ (-- transform: translateY(-text8px);
+  border-color:-dim rgba(255, 31, 61, 0.4);
   box-shadow:
     0 40px 80px -40px rgba(255, 31, 61, 0.45),
     0 0 0 1px rgba(255, 31, 61, 0.06);
@@ -1524,7 +1524,7 @@ a.project-action:hover svg { transform: translate(4px, -4px); }
 }
 .footer-links a {
   font-size: 12px;
-  color: var(--text-dim);
+  color);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   font-weight: 500;
@@ -1708,4 +1708,23 @@ a.project-action:hover svg { transform: translate(4px, -4px); }
 @supports (padding: max(0px)) {
   .nav { padding-top: max(16px, env(safe-area-inset-top)); }
   .footer { padding-bottom: max(56px, env(safe-area-inset-bottom)); }
+}
+
+/* ==========================================================
+   SAFETY — если JS не сработает, контент всё равно видим
+   ========================================================== */
+body:not(.loaded) .hero-badge,
+body:not(.loaded) .hero-title-main,
+body:not(.loaded) .hero-title-sub,
+body:not(.loaded) .hero-desc,
+body:not(.loaded) .hero-actions,
+body:not(.loaded) .hero-meta {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Если через 1.5 сек после загрузки класс .loaded не появился — 
+   reveal элементы всё равно показываем */
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1 !important; transform: none !important; }
 }
