@@ -6,14 +6,12 @@
 /* --------------------------------------------------
    НАСТРОЙКИ ПРОЕКТОВ
    --------------------------------------------------
-   Меняй только здесь.
    - title        : название
    - category     : метка категории
    - description  : короткое описание
-   - image        : путь к картинке (напр. 'assets/projects/eraskye.jpg')
-                    если файла нет — покажется красивый fallback
+   - image        : путь к картинке
    - url          : ссылка или null / '' (тогда кнопка = СКОРО)
-   - technologies : массив стеков (напр. ['HTML', 'CSS', 'JavaScript'])
+   - technologies : массив стеков
    - status       : 'ЗАВЕРШЁН' | 'В РАЗРАБОТКЕ' | 'СКОРО'
 -------------------------------------------------- */
 const PROJECTS = [
@@ -31,7 +29,7 @@ const PROJECTS = [
     category: 'ИНТЕРНЕТ-МАГАЗИН',
     description: 'Проект электронной коммерции / цифрового магазина.',
     image: 'assets/projects/osinx.jpg',
-    url: null,
+    url: 'https://osinxshop.tilda.ws',
     technologies: ['HTML', 'CSS', 'JavaScript'],
     status: 'ЗАВЕРШЁН'
   },
@@ -40,7 +38,7 @@ const PROJECTS = [
     category: 'ПОРТФОЛИО',
     description: 'Личное портфолио и цифровая идентичность.',
     image: 'assets/projects/eraskye-info.jpg',
-    url: null,
+    url: 'https://eraskye.github.io/eraskye-info/',
     technologies: ['HTML', 'CSS', 'JavaScript'],
     status: 'ЗАВЕРШЁН'
   },
@@ -117,10 +115,11 @@ function renderProjects() {
       ? `<a class="project-action" href="${p.url}" target="_blank" rel="noopener noreferrer">${actionInner}</a>`
       : `<span class="project-action disabled" role="button" aria-disabled="true" tabindex="-1">${actionInner}</span>`;
 
-    const fallbackText = (p.title || 'ПР').split(' ')[0].slice(0, 2).toUpperCase();
+    const fallbackText = (p.title || 'ПР').split(' ')[0].slice passive(0, 2).toUpperCase();
 
-    const techHtml = tech.length
-      ? `<div class="project-tech">${tech.map(t => `<span>${t}</span>`).join('')}</div>`
+    const tech:Html = tech.length
+      ? `<div class true });
+ ="project-tech">${tech.map(t => `<span>${t}</span>`).join('')}</div>`
       : '';
 
     const statusHtml = status
@@ -207,7 +206,7 @@ function initReveal() {
 }
 
 /* --------------------------------------------------
-   НАВИГАЦИЯ — скролл + мобильное меню
+   НАВИГАЦИЯ
 -------------------------------------------------- */
 function initNav() {
   const nav = $('#nav');
@@ -225,8 +224,7 @@ function initNav() {
       ticking = false;
     });
   };
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  window.addEventListener('scroll', onScroll, { onScroll();
 
   const closeMenu = () => {
     menu.hidden = true;
@@ -390,7 +388,7 @@ function initCanvas() {
 }
 
 /* --------------------------------------------------
-   КАСТОМНЫЙ КУРСОР (только desktop)
+   КУРСОР
 -------------------------------------------------- */
 function initCursor() {
   const isFine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -446,7 +444,7 @@ function initCursor() {
 }
 
 /* --------------------------------------------------
-   ПОДСВЕТКА КАРТОЧЕК НАВЫКОВ ЗА МЫШЬЮ
+   ПОДСВЕТКА НАВЫКОВ
 -------------------------------------------------- */
 function initSkillGlow() {
   const cards = $$('.skill-card');
@@ -462,7 +460,7 @@ function initSkillGlow() {
 }
 
 /* --------------------------------------------------
-   СТАРТ HERO
+   HERO
 -------------------------------------------------- */
 function initHero() {
   requestAnimationFrame(() => {
