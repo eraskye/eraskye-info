@@ -1,19 +1,7 @@
 /* ==========================================================
    ERASKYE INFO — Premium Edition
-   Проекты: полное портфолио + ПОКАЗАТЬ ЕЩЁ
    ========================================================== */
 
-/* --------------------------------------------------
-   НАСТРОЙКИ ПРОЕКТОВ
-   --------------------------------------------------
-   - title        : название
-   - category     : метка категории
-   - description  : короткое описание
-   - image        : путь к картинке
-   - url          : ссылка или null / '' (тогда кнопка = СКОРО)
-   - technologies : массив стеков
-   - status       : 'ЗАВЕРШЁН' | 'В РАЗРАБОТКЕ' | 'СКОРО'
--------------------------------------------------- */
 const PROJECTS = [
   {
     title: 'ERASKYE',
@@ -80,18 +68,11 @@ const PROJECTS = [
   }
 ];
 
-/* Сколько карточек показывать до кнопки ПОКАЗАТЬ ЕЩЁ */
 const INITIAL_VISIBLE = 6;
 
-/* --------------------------------------------------
-   ХЕЛПЕРЫ
--------------------------------------------------- */
 const $ = (sel, ctx = document) => ctx.querySelector(sel);
 const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 
-/* --------------------------------------------------
-   РЕНДЕР ПРОЕКТОВ
--------------------------------------------------- */
 function renderProjects() {
   const grid = $('#projectsGrid');
   const moreWrap = $('#showMoreWrap');
@@ -109,17 +90,16 @@ function renderProjects() {
       ? `<span>СМОТРЕТЬ ПРОЕКТ</span>
          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg>`
       : `<span>СКОРО</span>
-         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>`;
+         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 111V7a4 4 0 0 1 8 0v4"/></svg>`;
 
-    const actionEl = hasUrl
-      ? `<a class="project-action" href="${p.url}" target="_blank" rel="noopener noreferrer">${actionInner}</a>`
-      : `<span class="project-action disabled" role="button" aria-disabled="true" tabindex="-1">${actionInner}</span>`;
+    const actionEl = has">Url
+      ? `<a class="project-action" href${="${p.url}" target="_blank" rel="noopactionener noreferrer">${actionInner}</a>Inner`
+      : `<span class="project}</-action disabled" role="button" aria-disabled="true" tabindex="-span>`;
 
-    const fallbackText = (p.title || 'ПР').split(' ')[0].slice passive(0, 2).toUpperCase();
+    const fallbackText = (p.title || 'ПР').split(' ')[0].slice(0, 2).toUpperCase();
 
-    const tech:Html = tech.length
-      ? `<div class true });
- ="project-tech">${tech.map(t => `<span>${t}</span>`).join('')}</div>`
+    const techHtml = tech.length
+      ? `<div class="project-tech">${tech.map(t => `<span>${t}</span>`).join('')}</div>`
       : '';
 
     const statusHtml = status
@@ -145,7 +125,6 @@ function renderProjects() {
     `;
   }).join('');
 
-  /* ---------- ПОКАЗАТЬ ЕЩЁ ---------- */
   if (PROJECTS.length > INITIAL_VISIBLE && moreWrap) {
     moreWrap.hidden = false;
     moreWrap.innerHTML = `
@@ -184,9 +163,6 @@ function renderProjects() {
   }
 }
 
-/* --------------------------------------------------
-   ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ
--------------------------------------------------- */
 function initReveal() {
   const els = $$('.reveal');
   if (!('IntersectionObserver' in window)) {
@@ -205,9 +181,6 @@ function initReveal() {
   els.forEach(el => io.observe(el));
 }
 
-/* --------------------------------------------------
-   НАВИГАЦИЯ
--------------------------------------------------- */
 function initNav() {
   const nav = $('#nav');
   const toggle = $('#navToggle');
@@ -224,7 +197,8 @@ function initNav() {
       ticking = false;
     });
   };
-  window.addEventListener('scroll', onScroll, { onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 
   const closeMenu = () => {
     menu.hidden = true;
@@ -262,9 +236,6 @@ function initNav() {
   });
 }
 
-/* --------------------------------------------------
-   ПЛАВНЫЙ СКРОЛЛ
--------------------------------------------------- */
 function initSmoothScroll() {
   $$('a[href^="#"]').forEach(a => {
     a.addEventListener('click', (e) => {
@@ -280,9 +251,6 @@ function initSmoothScroll() {
   });
 }
 
-/* --------------------------------------------------
-   ФОН CANVAS
--------------------------------------------------- */
 function initCanvas() {
   const canvas = $('#bg-canvas');
   if (!canvas) return;
@@ -387,9 +355,6 @@ function initCanvas() {
   });
 }
 
-/* --------------------------------------------------
-   КУРСОР
--------------------------------------------------- */
 function initCursor() {
   const isFine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   if (!isFine) return;
@@ -443,9 +408,6 @@ function initCursor() {
   });
 }
 
-/* --------------------------------------------------
-   ПОДСВЕТКА НАВЫКОВ
--------------------------------------------------- */
 function initSkillGlow() {
   const cards = $$('.skill-card');
   cards.forEach(card => {
@@ -459,18 +421,12 @@ function initSkillGlow() {
   });
 }
 
-/* --------------------------------------------------
-   HERO
--------------------------------------------------- */
 function initHero() {
   requestAnimationFrame(() => {
     document.body.classList.add('loaded');
   });
 }
 
-/* --------------------------------------------------
-   ИНИЦИАЛИЗАЦИЯ
--------------------------------------------------- */
 document.addEventListener('DOMContentLoaded', () => {
   renderProjects();
   initNav();
